@@ -26,8 +26,8 @@ class App extends React.Component {
 
    // Remove movie from favourite
    isMovieFavourite = (movie) => {
-      const { favorites } = this.props.store.getState();
-      const index = favorites.indexOf(movie);
+      const { movies } = this.props.store.getState();
+      const index = movies.favorites.indexOf(movie);
       if (index !== -1) {
          // found the movie
          return true;
@@ -42,7 +42,12 @@ class App extends React.Component {
 
    render() {
       // const movies = this.props.store.getState();   // here state is an array []
-      const { list, favorites, showFavorites } = this.props.store.getState(); // here state is Object -> {list: [], favorites: []}
+      // const { list, favorites, showFavorites } = this.props.store.getState(); // here state is Object -> {list: [], favorites: []}
+
+      // By rootReducer
+      const { movies } = this.props.store.getState(); //State-{movies:{}, search:{}}
+      // console.log(movies);
+      const { list, favorites, showFavorites } = movies;
 
       const displayMovies = showFavorites ? favorites : list;
 

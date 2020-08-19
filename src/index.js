@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 import { createStore } from "redux";
 
 import App from "./components/App";
-import movies from "./reducers";
+import rootReducer from "./reducers";
 
 // Create store and pass reducers
-const store = createStore(movies);
+const store = createStore(rootReducer);
 // console.log("store", store);
-// console.log("Before state", store);
+console.log("Before state", store.getState());
 
 // Send action
 // store.dispatch({
