@@ -7,14 +7,21 @@ import rootReducer from "./reducers";
 
 // function logger(obj, next, action)
 // logger(obj)(next)(action)  -> In currying form
-const logger = function ({ dispatch, getState }) {
-   return function (next) {
-      return function (action) {
-         // Middleware code
-         console.log("ACTION_TYPE=", action.type);
-         next(action);
-      };
-   };
+// const logger = function ({ dispatch, getState }) {
+//    return function (next) {
+//       return function (action) {
+//          // Middleware code
+//          console.log("ACTION_TYPE=", action.type);
+//          next(action);
+//       };
+//    };
+// };
+
+// Modifying middleware
+const logger = ({ dispatch, getState }) => (next) => (action) => {
+   // Middleware code
+   console.log("ACTION_TYPE=", action.type);
+   next(action);
 };
 
 // Create store and pass reducers
