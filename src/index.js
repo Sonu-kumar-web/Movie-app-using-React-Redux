@@ -8,7 +8,7 @@ import movies from "./reducers";
 // Create store and pass reducers
 const store = createStore(movies);
 // console.log("store", store);
-console.log("Before state", store);
+// console.log("Before state", store);
 
 // Send action
 // store.dispatch({

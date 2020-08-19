@@ -2,11 +2,13 @@ import {
    ADD_MOVIES,
    ADD_TO_FAVOURITE,
    REMOVE_FROM_FAVOURITE,
+   SET_SHOW_FAVOURITE,
 } from "../actions";
 
 const initialMoviesState = {
    list: [],
    favorites: [],
+   showFavorites: false,
 };
 
 // We should make reducers as a pure functions
@@ -38,6 +40,11 @@ export default function movies(state = initialMoviesState, action) {
          return {
             ...state,
             favorites: filteredArray,
+         };
+      case SET_SHOW_FAVOURITE:
+         return {
+            ...state,
+            showFavorites: action.val,
          };
       default:
          return state;
