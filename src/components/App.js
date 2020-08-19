@@ -10,9 +10,10 @@ class App extends React.Component {
    componentDidMount() {
       const { store } = this.props;
       store.subscribe(() => {
-         console.log("Updated");
+         // console.log("Updated");
          // forceUpdate() method is used forcely Re-rendering/update our whole project (Generally we should avoid forceUpdate method)
          this.forceUpdate();
+         console.log(store.getState());
       });
       // make API call
       // dispatch action
@@ -21,9 +22,18 @@ class App extends React.Component {
       //    movies: data,
       // });
       store.dispatch(addMovies(data));
-
-      console.log("State", this.props.store.getState());
    }
+
+   // Remove movie from favourite
+   isMovieFavourite = (movie) => {
+      const { favorites } = this.props.store.getState();
+      const index = favorites.indexOf(movie);
+      if (index !== -1) {
+         // found the movie
+         return true;
+      }
+      return false;
+   };
 
    render() {
       // const movies = this.props.store.getState();   // here state is an array []
@@ -38,7 +48,12 @@ class App extends React.Component {
                </div>
                <div className="list">
                   {list.map((movie, index) => (
-                     <MovieCard movie={movie} key={`movies-${index}`} />
+                     <MovieCard
+                        movie={movie}
+                        key={`movies-${index}`}
+                        dispatch={this.props.store.dispatch}
+                        isFavourite={this.isMovieFavourite(movie)}
+                     />
                   ))}
                </div>
             </div>

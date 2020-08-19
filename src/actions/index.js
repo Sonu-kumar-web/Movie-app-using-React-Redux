@@ -8,6 +8,7 @@
 
 // actions type variable
 export const ADD_MOVIES = "ADD_MOVIES";
+export const ADD_FAVOURITE = "ADD_FAVOURITE";
 
 // action creators
 export const addMovies = (movies) => {
@@ -16,3 +17,11 @@ export const addMovies = (movies) => {
       movies: movies,
    };
 };
+
+// action creator
+export function addFavourite(movie) {
+   return {
+      type: ADD_FAVOURITE,
+      movie,
+   };
+}
