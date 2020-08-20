@@ -5,6 +5,7 @@ import { data } from "../data";
 import Navbar from "./Navbar";
 import MovieCard from "./MovieCard";
 import { addMovies, setShowFavourite } from "../actions";
+import { storeContext } from "../index";
 
 class App extends React.Component {
    componentDidMount() {
@@ -51,9 +52,61 @@ class App extends React.Component {
 
       const displayMovies = showFavorites ? favorites : list;
 
+      // Use consumer Type -1
+      // return (
+      //    <storeContext.Consumer>
+      //       {(store) => {
+      //          return (
+      //             <div className="App">
+      //                <Navbar
+      //                   dispatch={this.props.store.dispatch}
+      //                   search={search}
+      //                />
+      //                <div className="main">
+      //                   <div className="tabs">
+      //                      <div
+      //                         className={`tab ${
+      //                            showFavorites ? "" : "active-tabs"
+      //                         }`}
+      //                         onClick={() => this.onChangeTab(false)}
+      //                      >
+      //                         Movies
+      //                      </div>
+      //                      <div
+      //                         className={`tab ${
+      //                            showFavorites ? "active-tabs" : ""
+      //                         }`}
+      //                         onClick={() => this.onChangeTab(true)}
+      //                      >
+      //                         Favorites
+      //                      </div>
+      //                   </div>
+      //                   <div className="list">
+      //                      {displayMovies.map((movie, index) => (
+      //                         <MovieCard
+      //                            movie={movie}
+      //                            key={`movies-${index}`}
+      //                            dispatch={this.props.store.dispatch}
+      //                            isFavourite={this.isMovieFavourite(movie)}
+      //                         />
+      //                      ))}
+      //                   </div>
+
+      //                   {displayMovies.length === 0 ? (
+      //                      <div className="no-movies">
+      //                         No movies to display!
+      //                      </div>
+      //                   ) : null}
+      //                </div>
+      //             </div>
+      //          );
+      //       }}
+      //    </storeContext.Consumer>
+      // );
+
       return (
          <div className="App">
-            <Navbar dispatch={this.props.store.dispatch} search={search} />
+            <Navbar search={search} />
             <div className="main">
                <div className="tabs">
                   <div
@@ -89,4 +142,16 @@ class App extends React.Component {
    }
 }
 
-export default App;
+// Wrapper for app (use Consumer type-2)
+class AppWrapper extends React.Component {
+   render() {
+      return (
+         <storeContext.Consumer>
+            {(store) => <App store={store} />}
+         </storeContext.Consumer>
+      );
+   }
+}
+
+// export default App;
+export default AppWrapper;

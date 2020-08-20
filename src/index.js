@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext } from "react";
 import ReactDOM from "react-dom";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
@@ -44,6 +44,9 @@ const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 // console.log("store", store);
 console.log("Before state", store.getState());
 
+export const storeContext = createContext();
+console.log("createContext", storeContext);
+
 // Send action
 // store.dispatch({
 //    type: "ADD_MOVIES",
@@ -51,4 +54,29 @@ console.log("Before state", store.getState());
 // });
 // console.log("After state", store.getState());
 
-ReactDOM.render(<App store={store} />, document.querySelector("#root"));
+// use provider as a class
+class Provider extends React.Component {
+   render() {
+      const { store } = this.props;
+      return (
+         <storeContext.Provider value={store}>
+            {this.props.children}
+         </storeContext.Provider>
+      );
+   }
+}
+
+// Use provider without class
+// ReactDOM.render(
+//    <storeContext.Provider value={store}>
+//       <App store={store} />
+//    </storeContext.Provider>,
+//    document.querySelector("#root")
+// );
+
+ReactDOM.render(
+   <Provider store={store}>
+      <App />
+   </Provider>,
+   document.querySelector("#root")
+);
