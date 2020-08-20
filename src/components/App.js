@@ -45,7 +45,7 @@ class App extends React.Component {
       // const { list, favorites, showFavorites } = this.props.store.getState(); // here state is Object -> {list: [], favorites: []}
 
       // By rootReducer
-      const { movies } = this.props.store.getState(); //State-{movies:{}, search:{}}
+      const { movies, search } = this.props.store.getState(); //State-{movies:{}, search:{}}
       // console.log(movies);
       const { list, favorites, showFavorites } = movies;
 
@@ -53,7 +53,7 @@ class App extends React.Component {
 
       return (
          <div className="App">
-            <Navbar dispatch={this.props.store.dispatch} />
+            <Navbar dispatch={this.props.store.dispatch} search={search} />
             <div className="main">
                <div className="tabs">
                   <div

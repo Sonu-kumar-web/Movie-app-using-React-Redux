@@ -5,6 +5,8 @@ import {
    ADD_TO_FAVOURITE,
    REMOVE_FROM_FAVOURITE,
    SET_SHOW_FAVOURITE,
+   ADD_SEARCH_RESULT,
+   ADD_MOVIE_TO_LIST,
 } from "../actions";
 
 // Movie Reducer
@@ -49,6 +51,11 @@ export function movies(state = initialMoviesState, action) {
             ...state,
             showFavorites: action.val,
          };
+      case ADD_MOVIE_TO_LIST:
+         return {
+            ...state,
+            list: [action.movie, ...state.list],
+         };
       default:
          return state;
    }
@@ -56,10 +63,26 @@ export function movies(state = initialMoviesState, action) {
 
 // Search reducer
 const initialSearchState = {
+   // result: [],
    result: {},
+   showSearchResult: false,
 };
 export const search = (state = initialSearchState, action) => {
-   return state;
+   switch (action.type) {
+      case ADD_SEARCH_RESULT:
+         return {
+            ...state,
+            result: action.movie,
+            showSearchResult: true,
+         };
+      case ADD_MOVIE_TO_LIST:
+         return {
+            ...state,
+            showSearchResult: false,
+         };
+      default:
+         return state;
+   }
 };
 
 // Root reducer
