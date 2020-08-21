@@ -1,7 +1,8 @@
-import React, { createContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import { Provider } from "react-redux";
 
 import App from "./components/App";
 import rootReducer from "./reducers";
@@ -44,8 +45,8 @@ const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 // console.log("store", store);
 console.log("Before state", store.getState());
 
-export const storeContext = createContext();
-console.log("createContext", storeContext);
+// export const storeContext = createContext();
+// console.log("createContext", storeContext);
 
 // Send action
 // store.dispatch({
@@ -55,16 +56,20 @@ console.log("createContext", storeContext);
 // console.log("After state", store.getState());
 
 // use provider as a class
-class Provider extends React.Component {
-   render() {
-      const { store } = this.props;
-      return (
-         <storeContext.Provider value={store}>
-            {this.props.children}
-         </storeContext.Provider>
-      );
-   }
-}
+// class Provider extends React.Component {
+//    render() {
+//       const { store } = this.props;
+//       return (
+//          <storeContext.Provider value={store}>
+//             {this.props.children}
+//          </storeContext.Provider>
+//       );
+//    }
+// }
+
+// Implement connect() function by Scratch
+// const connectedAppComponent = connect(callback)(App); (this lines help to implement the connect function)
+//
 
 // Use provider without class
 // ReactDOM.render(

@@ -1,33 +1,35 @@
 import "../index.css";
 
 import React from "react";
-import { data } from "../data";
+import { data as movieList } from "../data";
 import Navbar from "./Navbar";
 import MovieCard from "./MovieCard";
 import { addMovies, setShowFavourite } from "../actions";
-import { storeContext } from "../index";
+// import { connect } from "../index";
+import { connect } from "react-redux";
 
 class App extends React.Component {
    componentDidMount() {
-      const { store } = this.props;
-      store.subscribe(() => {
-         // console.log("Updated");
-         // forceUpdate() method is used forcely Re-rendering/update our whole project (Generally we should avoid forceUpdate method)
-         this.forceUpdate();
-         // console.log(store.getState());
-      });
+      this.props.dispatch(addMovies(movieList));
+      // const { store } = this.props;
+      // store.subscribe(() => {
+      // console.log("Updated");
+      // forceUpdate() method is used forcely Re-rendering/update our whole project (Generally we should avoid forceUpdate method)
+      // this.forceUpdate();
+      // console.log(store.getState());
+      // });
       // make API call
       // dispatch action
       // store.dispatch({
       //    type: "ADD_MOVIES",
       //    movies: data,
       // });
-      store.dispatch(addMovies(data));
+      // store.dispatch(addMovies(data));
    }
 
    // Remove movie from favourite
    isMovieFavourite = (movie) => {
-      const { movies } = this.props.store.getState();
+      const { movies } = this.props;
       const index = movies.favorites.indexOf(movie);
       if (index !== -1) {
          // found the movie
@@ -38,7 +40,7 @@ class App extends React.Component {
 
    // For change the tab
    onChangeTab = (val) => {
-      this.props.store.dispatch(setShowFavourite(val));
+      this.props.dispatch(setShowFavourite(val));
    };
 
    render() {
@@ -46,9 +48,9 @@ class App extends React.Component {
       // const { list, favorites, showFavorites } = this.props.store.getState(); // here state is Object -> {list: [], favorites: []}
 
       // By rootReducer
-      const { movies, search } = this.props.store.getState(); //State-{movies:{}, search:{}}
+      const { movies, search } = this.props; //State-{movies:{}, search:{}}
       // console.log(movies);
-      const { list, favorites, showFavorites } = movies;
+      const { list, favorites = [], showFavorites = [] } = movies;
 
       const displayMovies = showFavorites ? favorites : list;
 
@@ -127,7 +129,7 @@ class App extends React.Component {
                      <MovieCard
                         movie={movie}
                         key={`movies-${index}`}
-                        dispatch={this.props.store.dispatch}
+                        dispatch={this.props.dispatch}
                         isFavourite={this.isMovieFavourite(movie)}
                      />
                   ))}
@@ -143,15 +145,25 @@ class App extends React.Component {
 }
 
 // Wrapper for app (use Consumer type-2)
-class AppWrapper extends React.Component {
-   render() {
-      return (
-         <storeContext.Consumer>
-            {(store) => <App store={store} />}
-         </storeContext.Consumer>
-      );
-   }
-}
+// class AppWrapper extends React.Component {
+//    render() {
+//       return (
+//          <storeContext.Consumer>
+//             {(store) => <App store={store} />}
+//          </storeContext.Consumer>
+//       );
+//    }
+// }
 
 // export default App;
-export default AppWrapper;
+// export default AppWrapper;
+
+// use connect() method function at the place of Wrapping
+function mapStateToProps(state) {
+   return {
+      movies: state.movies,
+      search: state.movies,
+   };
+}
+const connectedAppComponent = connect(mapStateToProps)(App);
+export default connectedAppComponent;
